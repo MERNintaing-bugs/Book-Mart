@@ -77,7 +77,7 @@ const AddBookPage = () => {
       <div className="container">
         <div className="page-header">
           <h1>Sell Your Book</h1>
-          <p>Add your book  the marketplace and reach thousands of potential buyers</p>
+          <p>Add your book to the marketplace and reach thousands of potential buyers</p>
         </div>
 
         <div className="add-book-form">

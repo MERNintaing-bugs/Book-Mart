@@ -50,10 +50,9 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
-mongoose.connect(process.env.MONGODB_URI)
-    .then(() => console.log('db connected'))
-    .catch(err => console.log(err));
-
+mongoose.connect('mongodb+srv://fakestore:Shaik123@cluster0.5ff7uok.mongodb.net/bookmart?retryWrites=true&w=majority&appName=Cluster0')
+    .then(() => console.log('✅ db connected'))
+    .catch(err => console.log('❌ DB connection error:', err));
 const port = 5000;
 app.listen(port, () => {
     console.log('server is running on http://localhost:' + port);

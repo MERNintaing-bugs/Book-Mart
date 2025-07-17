@@ -48,25 +48,25 @@ const HomePage = () => {
   const categories = [
     { 
       name: 'Fiction', 
-      image: 'https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg?auto=compress&cs=tinysrgb&w=400',
+      image: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=compress&w=400',
       count: '2,500+ books',
       path: '/books?category=fiction'
     },
     { 
       name: 'Non-Fiction', 
-      image: 'https://images.pexels.com/photos/3747163/pexels-photo-3747163.jpeg',
+      image: 'https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=compress&w=400',
       count: '1,800+ books',
       path: '/books?category=non-fiction'
     },
     { 
       name: 'Textbooks', 
-      image: 'https://images.pexels.com/photos/267586/pexels-photo-267586.jpeg?auto=compress&cs=tinysrgb&w=400',
+      image: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=compress&w=400',
       count: '3,200+ books',
       path: '/books?category=textbooks'
     },
     { 
       name: 'Children', 
-      image: 'https://images.pexels.com/photos/2736542/pexels-photo-2736542.jpeg',
+      image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=compress&w=400',
       count: '1,200+ books',
       path: '/books?category=children'
     }
@@ -91,19 +91,19 @@ const HomePage = () => {
     {
       title: 'Up to 70% Off',
       subtitle: 'Textbooks',
-      image: 'https://images.pexels.com/photos/267586/pexels-photo-267586.jpeg?auto=compress&cs=tinysrgb&w=400',
+      image: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=compress&w=400',
       link: '/books?category=textbooks&sort=price-low'
     },
     {
       title: 'Buy 2 Get 1 Free',
       subtitle: 'Fiction Books',
-      image: 'https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg?auto=compress&cs=tinysrgb&w=400',
+      image: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=compress&w=400',
       link: '/books?category=fiction&deal=buy2get1'
     },
     {
       title: 'New Arrivals',
       subtitle: 'Latest Books',
-      image: 'https://images.pexels.com/photos/1029141/pexels-photo-1029141.jpeg?auto=compress&cs=tinysrgb&w=400',
+      image: 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=compress&w=400',
       link: '/books?sort=newest'
     }
   ];
