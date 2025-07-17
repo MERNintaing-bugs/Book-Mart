@@ -1,0 +1,325 @@
+/* --- Amazon-like Book Detail Page --- */
+
+:root {
+  --primary: #ff9900;
+  --primary-dark: #e68a00;
+  --accent: #232f3e;
+  --bg: #f5f6fa;
+  --card-bg: #fff;
+  --shadow: 0 4px 24px 0 rgba(0,0,0,0.08);
+  --radius: 1.2rem;
+  --transition: 0.18s cubic-bezier(.4,0,.2,1);
+  --success: #2ecc40;
+  --danger: #e74c3c;
+  --muted: #888;
+}
+
+.book-detail-page {
+  min-height: 100vh;
+  background: var(--bg);
+  padding: 2.5rem 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  cursor: pointer;
+  transition: color var(--transition);
+}
+.back-btn:hover {
+  color: var(--primary);
+}
+
+.book-detail {
+  display: flex;
+  gap: 2.5rem;
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 2.5rem 2rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.book-image-section {
+  flex: 1 1 320px;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fafbfc;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 1.5rem 1rem;
+}
+.book-image {
+  width: 100%;
+  max-width: 260px;
+  height: 340px;
+  object-fit: cover;
+  border-radius: 0.7rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+  background: #eee;
+  margin-bottom: 1rem;
+}
+
+.book-info-section {
+  flex: 2 1 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.book-header {
+  margin-bottom: 0.5rem;
+}
+.book-title {
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 0.2rem;
+}
+.book-author {
+  color: var(--muted);
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+.book-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 0.5rem;
+}
+.stars {
+  display: flex;
+  gap: 0.1rem;
+}
+.star-filled {
+  color: #f7b500;
+}
+.star-empty {
+  color: #ddd;
+}
+.rating-text {
+  font-size: 0.98rem;
+  color: var(--muted);
+}
+
+.book-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 1rem;
+  color: #444;
+  background: #f7fafc;
+  border-radius: 0.5rem;
+  padding: 0.3rem 0.8rem;
+}
+
+.book-price {
+  margin: 1.2rem 0 0.7rem 0;
+  display: flex;
+  align-items: baseline;
+  gap: 1.2rem;
+}
+.price-info {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+}
+.current-price {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+.original-price {
+  font-size: 1.1rem;
+  color: #aaa;
+  text-decoration: line-through;
+  margin-left: 0.5rem;
+}
+.savings {
+  color: var(--success);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.savings-amount {
+  background: #e6f9ed;
+  color: var(--success);
+  border-radius: 0.5rem;
+  padding: 0.2rem 0.7rem;
+  font-size: 1rem;
+  margin-left: 0.5rem;
+}
+
+.book-actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: none;
+  border-radius: 0.7rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.85rem 1.7rem;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition), box-shadow var(--transition);
+  box-shadow: 0 2px 8px rgba(255,153,0,0.08);
+}
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+}
+.btn-primary:hover {
+  background: var(--primary-dark);
+}
+.btn-secondary {
+  background: #fff;
+  color: var(--primary);
+  border: 1.5px solid var(--primary);
+}
+.btn-secondary:hover {
+  background: var(--primary);
+  color: #fff;
+}
+.btn-large {
+  font-size: 1.15rem;
+  padding: 1rem 2.2rem;
+}
+.add-to-cart {
+  box-shadow: 0 2px 12px rgba(255,153,0,0.10);
+}
+.wishlist {
+  box-shadow: 0 2px 8px rgba(35,47,62,0.08);
+}
+
+.book-description, .book-details {
+  background: #f7fafc;
+  border-radius: 0.7rem;
+  padding: 1.2rem 1rem;
+  margin-bottom: 0.7rem;
+}
+.book-description h3, .book-details h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+.book-description p {
+  color: #444;
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.book-details {
+  margin-bottom: 0;
+}
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.7rem 1.2rem;
+  margin-top: 0.7rem;
+}
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  font-size: 1rem;
+  color: #333;
+}
+.detail-item strong {
+  color: var(--muted);
+  font-weight: 500;
+  margin-bottom: 0.1rem;
+}
+
+/* Loading & Error */
+.loading, .error-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  color: var(--muted);
+}
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #eee;
+  border-top: 4px solid var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1.2rem;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+  .book-detail {
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2rem 1rem;
+  }
+  .book-image-section {
+    max-width: 100%;
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+}
+@media (max-width: 600px) {
+  .container {
+    padding: 0 0.3rem;
+  }
+  .book-detail {
+    padding: 1.2rem 0.2rem;
+  }
+  .book-image {
+    max-width: 90vw;
+    height: 220px;
+  }
+  .book-title {
+    font-size: 1.3rem;
+  }
+  .current-price {
+    font-size: 1.3rem;
+  }
+}
+
+/* Remove top padding from .main-content only when WelcomePage is shown */
+.main-content {
+  padding-top: 0 !important;
+}
+
+/* Remove top margin and extra padding from footer on Welcome page */
+.footer {
+  margin-top: 0 !important;
+  padding-bottom: 0.5rem !important;
+}
+.footer-bottom {
+  margin-top: 0.5rem !important;
+}
