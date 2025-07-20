@@ -25,7 +25,6 @@ body, html, #root {
   align-items: center;
   justify-content: center;
   background: #f7f8fa;
-  overflow: hidden;
   position: relative;
   margin: 0;
   padding: 0;

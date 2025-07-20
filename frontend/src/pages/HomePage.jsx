@@ -278,7 +278,7 @@ const HomePage = () => {
                 </div>
               </div>
               <Link to="/about" className="section-link">Learn More About Us</Link>
-            </div>
+            </div>c
             <div className="why-choose-image">
               <img 
                 src="https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=600" 
