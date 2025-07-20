@@ -44,7 +44,7 @@ const AddBookPage = () => {
         originalPrice: formData.originalPrice ? parseFloat(formData.originalPrice) : null,
         publishedYear: parseInt(formData.publishedYear),
         sellerId: user.id,
-        sellerName: user.name,
+        sellerName: user.username, // changed from user.name to user.username
         image: formData.image || 'https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg?auto=compress&cs=tinysrgb&w=400'
       };
 

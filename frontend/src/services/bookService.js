@@ -140,60 +140,17 @@ const mockBooks = [
 
 export const bookService = {
   // Get all books with optional filters
-  getBooks: (filters = {}) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        let filteredBooks = [...mockBooks];
-        
-        if (filters.search) {
-          const searchTerm = filters.search.toLowerCase();
-          filteredBooks = filteredBooks.filter(book =>
-            book.title.toLowerCase().includes(searchTerm) ||
-            book.author.toLowerCase().includes(searchTerm)
-          );
-        }
-        
-        if (filters.category) {
-          filteredBooks = filteredBooks.filter(book =>
-            book.category.toLowerCase() === filters.category.toLowerCase()
-          );
-        }
-        
-        if (filters.condition) {
-          filteredBooks = filteredBooks.filter(book =>
-            book.condition.toLowerCase() === filters.condition.toLowerCase()
-          );
-        }
-        
-        if (filters.priceRange) {
-          const [min, max] = filters.priceRange;
-          filteredBooks = filteredBooks.filter(book =>
-            book.price >= min && book.price <= max
-          );
-        }
-        
-        if (filters.sortBy) {
-          switch (filters.sortBy) {
-            case 'price-low':
-              filteredBooks.sort((a, b) => a.price - b.price);
-              break;
-            case 'price-high':
-              filteredBooks.sort((a, b) => b.price - a.price);
-              break;
-            case 'rating':
-              filteredBooks.sort((a, b) => b.rating - a.rating);
-              break;
-            case 'newest':
-              filteredBooks.sort((a, b) => b.publishedYear - a.publishedYear);
-              break;
-            default:
-              break;
-          }
-        }
-        
-        resolve(filteredBooks);
-      }, 500);
+  getBooks: async () => {
+    const response = await fetch('http://localhost:5000/api/addbookpage', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
     });
+    if (!response.ok) {
+      throw new Error('Failed to fetch books');
+    }
+    return response.json();
   },
 
   // Get a single book by ID
@@ -234,21 +191,20 @@ export const bookService = {
     });
   },
 
-  // Add a new book (mock)
-  addBook: (bookData) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const newBook = {
-          id: mockBooks.length + 1,
-          ...bookData,
-          rating: 0,
-          reviews: 0,
-          publishedYear: new Date().getFullYear()
-        };
-        mockBooks.push(newBook);
-        resolve(newBook);
-      }, 500);
+  // Add a new book (real API call)
+  addBook: async (bookData) => {
+    const response = await fetch('http://localhost:5000/api/addbookpage', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(bookData)
     });
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Failed to add book');
+    }
+    return response.json();
   },
 
   // Get categories
