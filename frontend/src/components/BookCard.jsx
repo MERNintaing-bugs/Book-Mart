@@ -9,6 +9,9 @@ const BookCard = ({ book }) => {
   const { addToCart } = useCart();
   const { user } = useAuth();
 
+  // Ensure book.id is set for backend compatibility
+  const bookWithId = { ...book, id: book.id || book._id };
+
   const renderStars = (rating) => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
@@ -50,7 +53,7 @@ const BookCard = ({ book }) => {
       {user && (
         <button
           className="btn btn-primary book-card-addcart"
-          onClick={() => addToCart(book)}
+          onClick={() => addToCart(bookWithId)}
         >
           <ShoppingCart size={16} /> Add to Cart
         </button>
