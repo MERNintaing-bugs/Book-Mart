@@ -150,13 +150,20 @@ app.post('/api/cart/add', async (req, res) => {
         const { userId, bookId, quantity } = req.body;
         let cart = await Cart.findOne({ userId });
         if (!cart) {
-            cart = new Cart({ userId, items: [{ bookId, quantity: quantity || 1 }] });
+            cart = new Cart({ userId, items: quantity > 0 ? [{ bookId, quantity }] : [] });
         } else {
             const itemIndex = cart.items.findIndex(item => String(item.bookId) === String(bookId));
             if (itemIndex > -1) {
-                cart.items[itemIndex].quantity += quantity || 1;
-            } else {
-                cart.items.push({ bookId, quantity: quantity || 1 });
+                if (quantity === 0) {
+                    // Remove item from cart
+                    cart.items.splice(itemIndex, 1);
+                } else {
+                    // Set quantity (not just increment)
+                    cart.items[itemIndex].quantity = quantity;
+                }
+            } else if (quantity > 0) {
+                // Add new item
+                cart.items.push({ bookId, quantity });
             }
         }
         await cart.save();
