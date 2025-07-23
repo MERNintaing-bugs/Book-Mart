@@ -11,6 +11,7 @@ const cors = require('cors');
 require('dotenv').config();
 const Login = require('./models/Login');
 const Book = require('./models/Book');
+const Cart = require('./models/cart');
 
 
 const app = express();
@@ -142,6 +143,79 @@ app.delete('/api/books/:id', async (req, res) => {
     }
 });
 
+mongoose.connect('mongodb+srv://kakashibharath4427:TSLoTIuV6S9EoIP3@bookstest.iabxetl.mongodb.net/?retryWrites=true&w=majority&appName=bookstest')
+// Add book to cart (Cart model)
+app.post('/api/cart/add', async (req, res) => {
+    try {
+        const { userId, bookId, quantity } = req.body;
+        let cart = await Cart.findOne({ userId });
+        if (!cart) {
+            cart = new Cart({ userId, items: quantity > 0 ? [{ bookId, quantity }] : [] });
+        } else {
+            const itemIndex = cart.items.findIndex(item => String(item.bookId) === String(bookId));
+            if (itemIndex > -1) {
+                if (quantity === 0) {
+                    // Remove item from cart
+                    cart.items.splice(itemIndex, 1);
+                } else {
+                    // Set quantity (not just increment)
+                    cart.items[itemIndex].quantity = quantity;
+                }
+            } else if (quantity > 0) {
+                // Add new item
+                cart.items.push({ bookId, quantity });
+            }
+        }
+        await cart.save();
+        res.status(200).json({ success: true, cart });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// Get user's cart (Cart model)
+app.get('/api/cart/:userId', async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const cart = await Cart.findOne({ userId }).populate('items.bookId');
+        if (!cart) return res.status(404).json({ error: 'Cart not found' });
+        res.status(200).json({ success: true, cart });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+// Add book to cart
+app.post('/api/cart/add', async (req, res) => {
+    try {
+        const { userId, bookId, quantity } = req.body;
+        const user = await User.findById(userId);
+        if (!user) return res.status(404).json({ error: 'User not found' });
+
+        // Check if book already in cart
+        const cartItem = user.cart.find(item => String(item.bookId) === String(bookId));
+        if (cartItem) {
+            cartItem.quantity += quantity || 1;
+        } else {
+            user.cart.push({ bookId, quantity: quantity || 1 });
+        }
+        await user.save();
+        res.status(200).json({ success: true, cart: user.cart });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// Get user's cart
+app.get('/api/cart', async (req, res) => {
+    try {
+        const { userId } = req.query;
+        const user = await User.findById(userId).populate('cart.bookId');
+        if (!user) return res.status(404).json({ error: 'User not found' });
+        res.status(200).json({ success: true, cart: user.cart });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
 mongoose.connect('mongodb+srv://kakashibharath4427:TSLoTIuV6S9EoIP3@bookstest.iabxetl.mongodb.net/?retryWrites=true&w=majority&appName=bookstest')
     .then(() => console.log('✅ db connected'))
     .catch(err => console.log('❌ DB connection error:', err));

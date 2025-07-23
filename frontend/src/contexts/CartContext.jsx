@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { fetchCart, addToCart as apiAddToCart } from '../services/cartService';
+import { useAuth } from './AuthContext';
 
 const CartContext = createContext();
 
@@ -13,60 +15,43 @@ export const useCart = () => {
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const [orders, setOrders] = useState([]);
+  const { user } = useAuth();
 
   useEffect(() => {
-    // Load cart from localStorage
-    const savedCart = localStorage.getItem('bookmart_cart');
-    if (savedCart) {
-      setCartItems(JSON.parse(savedCart));
+    if (user) {
+      fetchCart(user.id)
+        .then(items => setCartItems(items))
+        .catch(() => setCartItems([]));
+    } else {
+      setCartItems([]);
     }
+  }, [user]);
 
-    // Load orders from localStorage
-    const savedOrders = localStorage.getItem('bookmart_orders');
-    if (savedOrders) {
-      setOrders(JSON.parse(savedOrders));
-    }
-  }, []);
-
-  useEffect(() => {
-    // Save cart to localStorage whenever it changes
-    localStorage.setItem('bookmart_cart', JSON.stringify(cartItems));
-  }, [cartItems]);
-
-  const addToCart = (book) => {
-    setCartItems(prev => {
-      const existingItem = prev.find(item => item.id === book.id);
-      if (existingItem) {
-        return prev.map(item =>
-          item.id === book.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      }
-      return [...prev, { ...book, quantity: 1 }];
-    });
+  const addToCart = async (book) => {
+    if (!user) return;
+    await apiAddToCart(user.id, book.id, 1);
+    const items = await fetchCart(user.id);
+    setCartItems(items);
   };
 
-  const removeFromCart = (bookId) => {
-    setCartItems(prev => prev.filter(item => item.id !== bookId));
+  const removeFromCart = async (bookId) => {
+    if (!user) return;
+    await apiAddToCart(user.id, bookId, 0); // 0 means remove
+    const items = await fetchCart(user.id);
+    setCartItems(items);
   };
 
-  const updateQuantity = (bookId, quantity) => {
-    if (quantity <= 0) {
-      removeFromCart(bookId);
-      return;
-    }
-    
-    setCartItems(prev =>
-      prev.map(item =>
-        item.id === bookId
-          ? { ...item, quantity }
-          : item
-      )
-    );
+  const updateQuantity = async (bookId, quantity) => {
+    if (!user) return;
+    await apiAddToCart(user.id, bookId, quantity);
+    const items = await fetchCart(user.id);
+    setCartItems(items);
   };
 
-  const clearCart = () => {
+  const clearCart = async () => {
+    if (!user) return;
+    // Remove all items by setting quantity to 0 for each
+    await Promise.all(cartItems.map(item => apiAddToCart(user.id, item.id, 0)));
     setCartItems([]);
   };
 
