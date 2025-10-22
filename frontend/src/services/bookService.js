@@ -180,15 +180,17 @@ export const bookService = {
   },
 
   // Get books by category
-  getBooksByCategory: (category) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const categoryBooks = mockBooks.filter(book =>
-          book.category.toLowerCase() === category.toLowerCase()
-        );
-        resolve(categoryBooks);
-      }, 300);
+  getBooksByCategory: async (category) => {
+    const response = await fetch(`http://localhost:5000/api/addbookpage?category=${encodeURIComponent(category)}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
     });
+    if (!response.ok) {
+      throw new Error('Failed to fetch books by category');
+    }
+    return response.json();
   },
 
   // Add a new book (real API call)
