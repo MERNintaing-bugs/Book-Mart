@@ -22,6 +22,11 @@ const AddBookPage = require('./models/AddBookPage');
 app.use(cors());
 app.use(express.json());
 
+// Root route - helpful for deployment platforms (Render) and quick checks
+app.get('/', (req, res) => {
+    res.status(200).json({ status: 'ok', message: 'Book-Mart API is running' });
+});
+
 // Universal filter for AddBookPage collection
 app.get('/api/addbookpage', async (req, res) => {
     try {
@@ -194,10 +199,36 @@ app.get('/api/cart/:userId', async (req, res) => {
     }
 });
 
-mongoose.connect('mongodb+srv://kakashibharath4427:TSLoTIuV6S9EoIP3@bookstest.iabxetl.mongodb.net/?retryWrites=true&w=majority&appName=bookstest')
-    .then(() => console.log('✅ db connected'))
-    .catch(err => console.log('❌ DB connection error:', err));
-const port = 5000;
-app.listen(port, () => {
-    console.log('server is running on http://localhost:' + port);
+// Health check (useful for Render and load balancers)
+app.get('/health', (req, res) => res.status(200).json({ status: 'ok' }));
+
+// Use environment variables where available (Render provides PORT and you should set MONGO_URI)
+const PORT = process.env.PORT || 5000;
+const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://kakashibharath4427:TSLoTIuV6S9EoIP3@bookstest.iabxetl.mongodb.net/?retryWrites=true&w=majority&appName=bookstest';
+
+async function startServer() {
+    try {
+        await mongoose.connect(MONGO_URI);
+        console.log('✅ db connected');
+
+        app.listen(PORT, () => {
+            console.log(`server is running on port ${PORT}`);
+        });
+    } catch (err) {
+        console.error('❌ Failed to start server:', err);
+        // Exit so the platform (Render) can restart the service or report failure
+        process.exit(1);
+    }
+}
+
+// Graceful handling of unexpected errors
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('Unhandled Rejection at:', promise, 'reason:', reason);
 });
+
+process.on('uncaughtException', (err) => {
+    console.error('Uncaught Exception:', err);
+    process.exit(1);
+});
+
+startServer();
