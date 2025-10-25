@@ -1,0 +1,35 @@
+# Ignore user-specific and system files
+.aitk/
+.anaconda/
+.conda/
+.condarc
+.config/
+.continuum/
+.cursor/
+.gitconfig
+.ipynb_checkpoints/
+.ipython/
+.jupyter/
+.lesshst
+.matplotlib/
+.ollama/
+.python_history
+.streamlit/
+.vscode/
+AppData/
+Contacts/
+Downloads/
+Favorites/
+Links/
+Microsoft/
+Music/
+NTUSER.DAT*
+Saved Games/
+Searches/
+Videos/
+ntuser.dat*
+ntuser.ini
+Untitled*.ipynb
+
+# Ignore parent directories if accidentally included
+../
