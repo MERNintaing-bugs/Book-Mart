@@ -138,10 +138,12 @@ const mockBooks = [
   }
 ];
 
+const API_BASE = import.meta.env.VITE_API_URL || 'https://book-mart-z1pq.onrender.com';
+
 export const bookService = {
   // Get all books with optional filters
   getBooks: async () => {
-    const response = await fetch('http://localhost:5000/api/addbookpage', {
+    const response = await fetch(`${API_BASE}/api/addbookpage`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -181,7 +183,7 @@ export const bookService = {
 
   // Get books by category
   getBooksByCategory: async (category) => {
-    const response = await fetch(`http://localhost:5000/api/addbookpage?category=${encodeURIComponent(category)}`, {
+    const response = await fetch(`${API_BASE}/api/addbookpage?category=${encodeURIComponent(category)}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -195,7 +197,7 @@ export const bookService = {
 
   // Add a new book (real API call)
   addBook: async (bookData) => {
-    const response = await fetch('http://localhost:5000/api/addbookpage', {
+    const response = await fetch(`${API_BASE}/api/addbookpage`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

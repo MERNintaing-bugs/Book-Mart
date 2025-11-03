@@ -1,4 +1,5 @@
-const API_URL = 'http://localhost:5000/api/cart';
+const API_BASE = import.meta.env.VITE_API_URL || 'https://book-mart-z1pq.onrender.com';
+const API_URL = `${API_BASE}/api/cart`;
 
 export async function fetchCart(userId) {
   const res = await fetch(`${API_URL}/${userId}`);
