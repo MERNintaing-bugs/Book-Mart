@@ -19,7 +19,13 @@ const app = express();
 
 const AddBookPage = require('./models/AddBookPage');
 
-app.use(cors());
+// Configure CORS to allow frontend origin. Set FRONTEND_URL in Render environment variables.
+const FRONTEND_URL = process.env.FRONTEND_URL || '*';
+if (FRONTEND_URL === '*') {
+    app.use(cors());
+} else {
+    app.use(cors({ origin: FRONTEND_URL }));
+}
 app.use(express.json());
 
 // Root route - helpful for deployment platforms (Render) and quick checks
@@ -128,8 +134,8 @@ app.delete('/api/books/:id', async (req, res) => {
 app.post('/api/register', async (req, res) => {
     try {
         const { username, email, password } = req.body;
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const user = await User.create({ username, email, password: hashedPassword });
+        // Let the User model pre-save middleware hash the password
+        const user = await User.create({ username, email, password });
         res.status(201).json({ success: true, user: { id: user._id, username, email } });
     } catch (err) {
         res.status(500).json({ success: false, error: err.message });
@@ -140,7 +146,9 @@ app.post('/api/register', async (req, res) => {
 app.post('/api/login', async (req, res) => {
     try {
         const { email, password } = req.body;
+        console.log('Login attempt for:', email);
         const user = await User.findOne({ email });
+        console.log('User found:', !!user);
         if (!user) return res.status(400).json({ success: false, error: 'User not found' });
 
         const isMatch = await bcrypt.compare(password, user.password);
